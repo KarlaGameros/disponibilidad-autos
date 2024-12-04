@@ -1,31 +1,44 @@
 import { boot } from 'quasar/wrappers';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { EncryptStorage } from 'storage-encryption';
 
-declare module 'vue' {
-  interface ComponentCustomProperties {
-    $axios: AxiosInstance;
-    $api: AxiosInstance;
-  }
+const encryptStorage = new EncryptStorage('SECRET_KEY', 'sessionStorage');
+const urlActual: string = window.location.href;
+const arrUrl: string[] = urlActual.split(':');
+let urlSistemas: string = `${arrUrl[0]}:${arrUrl[1]}`;
+
+let urlAxios: string = '';
+if (urlActual.includes('localhost')) {
+  urlAxios = 'http://192.168.2.110:9270/api';
+  urlSistemas = 'http://192.168.2.110';
+} else {
+  urlAxios = `${arrUrl[0]}:${arrUrl[1]}:9270/api`;
 }
 
-// Be careful when using SSR for cross-request state pollution
-// due to creating a Singleton instance here;
-// If any client changes this (global) instance, it might be a
-// good idea to move this instance creation inside of the
-// "export default () => {}" function below (which runs individually
-// for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' });
+const api = axios.create({ baseURL: urlAxios });
 
-export default boot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
-
-  app.config.globalProperties.$axios = axios;
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
-  app.config.globalProperties.$api = api;
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
+api.interceptors.request.use((config) => {
+  if (config.headers) {
+    config.headers.Authorization = `Bearer ${encryptStorage.decrypt('key')}`;
+  }
+  return config;
 });
 
-export { api };
+api.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      alert('Su sesión ha expirado, sera redireccionado al logín');
+      localStorage.clear();
+      window.location.href = `${urlSistemas}:9271?return=false`;
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default boot(({ app }) => {
+  app.config.globalProperties.$axios = axios;
+  app.config.globalProperties.$api = api;
+});
+
+export { api, urlSistemas };
