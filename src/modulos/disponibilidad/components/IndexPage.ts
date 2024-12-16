@@ -1,4 +1,5 @@
-import TablaComp from './TablaComp.vue';
-import ModalComp from './ModalComp.vue';
+import TablaComp from '../components/TablaComp.vue';
+import ModalComp from '../components/ModalComp.vue';
+import CalendarByVehiculo from './CalendarByVehiculo.vue';
 
-export default { TablaComp, ModalComp };
+export default { TablaComp, ModalComp, CalendarByVehiculo };

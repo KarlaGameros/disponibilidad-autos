@@ -82,7 +82,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { Day, Events, Pase } from '../components/modelsDisponibilidad';
-import { useDisponibilidadStore } from 'src/stores/disponibilidad-store';
+import { useDisponibilidadStore } from '../../../stores/disponibilidad-store';
 import { computed, onBeforeMount, ref } from 'vue';
 
 //-----------------------------------------------------------------------

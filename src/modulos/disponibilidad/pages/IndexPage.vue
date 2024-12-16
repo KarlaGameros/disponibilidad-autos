@@ -59,7 +59,7 @@
   </q-page>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue';
 import ModalComp from '../components/ModalComp.vue';
 import TablaComp from '../components/TablaComp.vue';

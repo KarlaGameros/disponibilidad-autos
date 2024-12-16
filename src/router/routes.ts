@@ -17,10 +17,22 @@ const routes: RouteRecordRaw[] = [
           import('../modulos/disponibilidad/pages/IndexPage.vue'),
       },
       {
-        path: '/ver_Disponibilidad',
-        name: 'ver_Disponibilidad',
+        path: '/registro_Vehicular',
+        name: 'registro_Vehicular',
         component: () =>
-          import('../modulos/disponibilidad/pages/IndexPage.vue'),
+          import('../modulos/registro_Vehicular/pages/IndexPage.vue'),
+      },
+      {
+        path: '/informacion_Vehicular',
+        name: 'informacion_Vehicular',
+        component: () =>
+          import('../modulos/registro_Vehicular/pages/KardexPage.vue'),
+      },
+      {
+        path: '/observaciones_Vehiculo',
+        name: 'observaciones_Vehiculo',
+        component: () =>
+          import('../modulos/registro_Vehicular/pages/ObservacionesPage.vue'),
       },
     ],
   },

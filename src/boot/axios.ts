@@ -10,6 +10,7 @@ let urlSistemas: string = `${arrUrl[0]}:${arrUrl[1]}`;
 let urlAxios: string = '';
 if (urlActual.includes('localhost')) {
   urlAxios = 'http://192.168.2.110:9270/api';
+  //urlAxios = 'https://gvqf7k95-7289.usw3.devtunnels.ms/api';
   urlSistemas = 'http://192.168.2.110';
 } else {
   urlAxios = `${arrUrl[0]}:${arrUrl[1]}:9270/api`;

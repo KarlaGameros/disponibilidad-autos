@@ -52,6 +52,21 @@
               <q-item-label>Ver disponibilidad</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item
+            v-if="menuList.some((element) => element == 'DV-REG-VEH')"
+            :to="{ name: 'registro_Vehicular' }"
+            :content-inset-level="2"
+            :header-inset-level="2"
+            class="text-grey-8 text-bold"
+            active-class="text-purple-ieen"
+          >
+            <q-item-section avatar>
+              <q-icon name="garage" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Registro Vehicular</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -152,6 +167,11 @@ const loadMenu = async () => {
     switch (element.siglas_Modulo) {
       case 'DV-CON-VEH':
         menuList.value.push('DV-CON-VEH');
+        break;
+    }
+    switch (element.siglas_Modulo) {
+      case 'DV-REG-VEH':
+        menuList.value.push('DV-REG-VEH');
         break;
     }
   });
