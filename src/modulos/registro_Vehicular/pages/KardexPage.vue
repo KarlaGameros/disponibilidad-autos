@@ -6,7 +6,7 @@
           <q-breadcrumbs>
             <q-breadcrumbs-el
               icon="arrow_back"
-              to="registro_Vehicular"
+              @click="goBack"
               label="Volver al registro"
             />
             <q-breadcrumbs-el icon="directions_car" label="Vehículo" />
@@ -38,6 +38,8 @@
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
 import { useQuasar } from 'quasar';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import {
   ModalDatosVehiculo,
   ModalDatosSeguro,
@@ -52,6 +54,12 @@ const $q = useQuasar();
 onBeforeMount(() => {
   cargarDatos();
 });
+
+const goBack = async () => {
+  $q.loading.show();
+  router.go(-1);
+  $q.loading.hide();
+};
 
 const cargarDatos = async () => {
   $q.loading.show();

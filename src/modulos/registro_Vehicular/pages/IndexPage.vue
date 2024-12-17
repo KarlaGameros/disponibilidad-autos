@@ -40,7 +40,6 @@
     </q-card>
     <ModalRegistro />
     <ModalFotos />
-    <FormularioObservaciones />
   </q-page>
 </template>
 
@@ -49,7 +48,6 @@ import {
   TablaRegistro,
   ModalRegistro,
   ModalFotos,
-  FormularioObservaciones,
   Modulo,
 } from '../components/components';
 import { onBeforeMount, Ref } from 'vue';

@@ -68,7 +68,7 @@
                 label="Cancelar"
                 type="reset"
                 color="negative"
-                @click="actualizarModal(2)"
+                @click="actualizarModal(1)"
               />
               <q-btn
                 label="Guardar"
