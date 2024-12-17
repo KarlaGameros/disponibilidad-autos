@@ -82,7 +82,7 @@ import { ref, Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
 import { useRegistroVehicularStore } from '../../../stores/registro-vehicular';
-import { Modulo } from '../components/components';
+import { Modulo } from './components';
 const registroStore = useRegistroVehicularStore();
 const $q = useQuasar();
 const { list_Historial_Oservaciones, observaciones } =

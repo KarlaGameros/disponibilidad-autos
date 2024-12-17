@@ -1,24 +1,24 @@
 <template>
-  <q-dialog
-    v-model="modalObservación"
-    persistent
-    transition-show="scale"
-    transition-hide="scale"
-  >
-    <q-card style="width: 1200px; max-width: 80vw">
+  <q-page>
+    <q-card style="width: 100%; max-width: 100%">
+      <div class="row bg-white">
+        <div class="col">
+          <div class="q-pa-md q-gutter-sm">
+            <q-breadcrumbs>
+              <q-breadcrumbs-el
+                icon="arrow_back"
+                to="observaciones_Vehiculo"
+                label="Volver al registro"
+              />
+              <q-breadcrumbs-el icon="directions_car" label="Vehículo" />
+            </q-breadcrumbs>
+          </div>
+        </div>
+      </div>
       <q-card-section class="row">
         <div class="text-h6">
           Registro de observación del vehículo {{ vehiculo.nombre }}
         </div>
-        <q-space />
-        <q-btn
-          icon="close"
-          @click="actualizarModal(2)"
-          flat
-          round
-          dense
-          v-close-popup
-        />
       </q-card-section>
       <q-card-section>
         <q-form class="row q-col-gutter-xs" @submit="onSubmit">
@@ -82,20 +82,19 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <ModalObservacionesVehiculo />
+        <TablaObservacionesVehiculo />
       </q-card-section>
     </q-card>
-  </q-dialog>
+  </q-page>
 </template>
 <script setup>
 import { useRegistroVehicularStore } from 'src/stores/registro-vehicular';
 import { useQuasar } from 'quasar';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
-import { ModalObservacionesVehiculo } from './components';
+import { TablaObservacionesVehiculo } from './components';
 const registroStore = useRegistroVehicularStore();
-const { vehiculo, observaciones, modalObservación } =
-  storeToRefs(registroStore);
+const { vehiculo, observaciones } = storeToRefs(registroStore);
 const $q = useQuasar();
 const filesImages = ref([]);
 const actualizarModal = (tipo) => {

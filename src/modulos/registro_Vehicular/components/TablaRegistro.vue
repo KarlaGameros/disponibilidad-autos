@@ -67,16 +67,6 @@
             >
               <q-tooltip>Información del vehículo</q-tooltip>
             </q-btn>
-            <q-btn
-              v-if="modulo == null ? false : modulo.registrar"
-              flat
-              round
-              color="purple-ieen"
-              icon="zoom_in"
-              @click="observaciones(col.value)"
-            >
-              <q-tooltip>Información del vehículo</q-tooltip>
-            </q-btn>
           </div>
 
           <label v-else>{{ col.value }}</label>
@@ -103,13 +93,26 @@ const { list_Vehiculos } = storeToRefs(registroStore);
 
 const columnas: Column[] = [
   {
+    name: 'no_Inventario',
+    align: 'center',
+    label: 'No. Inventario',
+    field: 'no_Inventario',
+    sortable: true,
+  },
+  {
+    name: 'numero_Institucional',
+    align: 'center',
+    label: 'Número institucional',
+    field: 'numero_Institucional',
+    sortable: true,
+  },
+  {
     name: 'vehiculo',
     align: 'center',
     label: 'Vehículo',
     field: 'vehiculo',
     sortable: true,
   },
-
   {
     name: 'responsable',
     align: 'center',
@@ -159,19 +162,9 @@ const informacion = async (id: number) => {
   await registroStore.loadFotografiasByVehiculo(id);
   await registroStore.loadHistorialMes(id);
   await registroStore.loadObservacionesByVehiculo(id);
+  await registroStore.loadVehiculosByArea();
   router.push({
     name: 'informacion_Vehicular',
-  });
-  $q.loading.hide();
-};
-
-const observaciones = async (id: number) => {
-  $q.loading.show();
-  await registroStore.loadVehiculo(id);
-  await registroStore.loadInformacionObservacion();
-  await registroStore.loadObservacionesByVehiculo(id);
-  router.push({
-    name: 'observaciones_Vehiculo',
   });
   $q.loading.hide();
 };

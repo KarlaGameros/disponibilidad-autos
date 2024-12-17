@@ -3,90 +3,24 @@
     <div class="row bg-white">
       <div class="col">
         <div class="q-pa-md q-gutter-sm">
+          <div class="text-grey-7 text-h6">Observaciones de vehículos</div>
           <q-breadcrumbs>
+            <template v-slot:separator>
+              <q-icon size="1.5em" name="chevron_right" color="primary" />
+            </template>
+            <q-breadcrumbs-el icon="home" label="Inicio" to="/" />
             <q-breadcrumbs-el
-              icon="arrow_back"
-              to="registro_Vehicular"
-              label="Volver al registro"
+              icon="library_books"
+              class="text-grey-7"
+              label="Observación de vehículo"
             />
-            <q-breadcrumbs-el icon="directions_car" label="Observaciones" />
           </q-breadcrumbs>
         </div>
       </div>
     </div>
-    <div class="row text-center">
-      <q-card style="width: 100%; max-width: 100%">
-        <q-card-section class="row">
-          <div class="text-h6">
-            Registro de observación del vehículo {{ vehiculo.nombre }}
-          </div>
-        </q-card-section>
-        <q-card-section>
-          <q-form class="row q-col-gutter-xs" @submit="onSubmit">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <q-input
-                v-model="observaciones.vehiculo"
-                label="Vehículo"
-                autogrow
-                readonly
-              />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <q-input
-                v-model="observaciones.empleado"
-                label="Quien registra"
-                autogrow
-                readonly
-              />
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <q-input v-model="observaciones.asunto" label="Asunto" autogrow />
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <q-input
-                v-model="observaciones.observacion"
-                label="Describa la observación"
-                autogrow
-              />
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <q-file
-                v-model="filesImages"
-                label="Subir imagenes"
-                multiple
-                accept=".jpg, .png, image/*"
-                @rejected="onRejected"
-                :max-files="2"
-                counter
-                use-chips
-              />
-            </div>
-
-            <q-space />
-            <div class="col-12 justify-end">
-              <div class="text-right q-gutter-xs">
-                <q-btn
-                  label="Cancelar"
-                  type="reset"
-                  color="negative"
-                  @click="actualizarModal(2)"
-                />
-                <q-btn
-                  label="Guardar"
-                  type="submit"
-                  color="positive"
-                  class="q-ml-sm"
-                />
-              </div>
-            </div>
-          </q-form>
-        </q-card-section>
-        <q-separator />
-        <q-card-section>
-          <ModalObservacionesVehiculo />
-        </q-card-section>
-      </q-card>
-    </div>
+    <q-card class="q-ma-lg">
+      <TablaByArea />
+    </q-card>
     <br />
   </q-page>
 </template>
@@ -94,14 +28,29 @@
 <script setup>
 import { useRegistroVehicularStore } from 'src/stores/registro-vehicular';
 import { useQuasar } from 'quasar';
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
-import { ModalObservacionesVehiculo } from '../components/components';
+import { useAuthStore } from '../../../stores/auth_store';
+const authStore = useAuthStore();
+//import { storeToRefs } from 'pinia';
+import { onBeforeMount } from 'vue';
+import { TablaByArea } from '../components/components';
 const registroStore = useRegistroVehicularStore();
-const { vehiculo, observaciones } = storeToRefs(registroStore);
 const $q = useQuasar();
-const filesImages = ref([]);
-const actualizarModal = (tipo) => {
+onBeforeMount(() => {
+  cargarDatos();
+});
+
+const cargarDatos = async () => {
+  $q.loading.show();
+  await registroStore.loadVehiculosByArea();
+  await authStore.loadModulo('DV-OBS-VEH');
+
+  $q.loading.hide();
+};
+//const registroStore = useRegistroVehicularStore();
+//const { vehiculo, observaciones } = storeToRefs(registroStore);
+//const $q = useQuasar();
+//const filesImages = ref([]);
+/*const actualizarModal = (tipo) => {
   $q.loading.show();
   filesImages.value = [];
   if (tipo == 2) {
@@ -112,7 +61,7 @@ const actualizarModal = (tipo) => {
   }
 
   $q.loading.hide();
-};
+};*/
 
 /*watch(puesto.value, (val) => {
   if (val.id != null) {
@@ -120,7 +69,7 @@ const actualizarModal = (tipo) => {
   }
 });*/
 
-const onSubmit = async () => {
+/*const onSubmit = async () => {
   let resp = null;
   $q.loading.show();
   let fotoUno = null;
@@ -156,7 +105,7 @@ const onSubmit = async () => {
     });
   }
   $q.loading.hide();
-};
+};*/
 </script>
 
 <style></style>

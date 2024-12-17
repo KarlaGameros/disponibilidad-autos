@@ -75,6 +75,7 @@ const cargarDatos = async () => {
   $q.loading.show();
   await registroStore.loadVehiculos();
   await authStore.loadModulo('DV-REG-VEH');
+
   $q.loading.hide();
 };
 //import { ref } from 'vue';

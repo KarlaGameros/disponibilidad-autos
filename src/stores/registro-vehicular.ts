@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { api } from 'src/boot/axios';
+import { EncryptStorage } from 'storage-encryption';
+const encryptStorage = new EncryptStorage('SECRET_KEY', 'sessionStorage');
 
 interface Registro {
   id?: number;
@@ -37,6 +39,11 @@ interface Registro {
   fecha_Fin_Seguro: string;
 }
 
+interface AreaResponsable {
+  id: number;
+  // otras propiedades
+}
+
 interface Observacion {
   id?: number;
   vehiculo: string;
@@ -72,7 +79,11 @@ interface vehiculosRegistrados {
   id: number;
   nombre: string;
   responsable: string;
+  area_Id: number;
+  responsable_Id: number;
   bodega: string;
+  no_Inventario: string;
+  numero_Institucional: string;
 }
 
 interface historialVehiculo {
@@ -166,6 +177,7 @@ export const useRegistroVehicularStore = defineStore('useRegistroVehicular', {
     list_Bodegas: <Bodegas[]>[],
     list_Fotos: <fotosVehiculos[]>[],
     list_Vehiculos: <vehiculosRegistrados[]>[],
+    list_Vehiculos_By_Area: <vehiculosRegistrados[]>[],
     list_Historial: <historialVehiculo[]>[],
     list_Historial_Filtro: <historialVehiculo[]>[],
     list_Historial_Oservaciones: <Observacion[]>[],
@@ -305,6 +317,8 @@ export const useRegistroVehicularStore = defineStore('useRegistroVehicular', {
                 vehiculo: item.nombre,
                 responsable: item.responsable,
                 bodega: item.bodega,
+                no_Inventario: item.no_Inventario,
+                numero_Institucional: item.numero_Institucional,
               };
             });
           }
@@ -376,6 +390,49 @@ export const useRegistroVehicularStore = defineStore('useRegistroVehicular', {
             this.vehiculo.tipo_Motor = data.tipo_Motor;
             this.vehiculo.kilometraje = data.kilometraje;
             this.vehiculo.no_Inventario = data.no_Inventario;
+          }
+        }
+      } catch (error) {
+        return {
+          success: false,
+          data: 'Ocurrió un error, inténtelo de nuevo. Si el error persiste, contacte a soporte',
+        };
+      }
+    },
+
+    async loadVehiculosByArea() {
+      try {
+        const resp = await api.get('/Vehiculos');
+        if (resp.status == 200) {
+          const { success, data } = resp.data;
+          const respEmpleado = await api.get('/Empleados');
+          const areaResponsable = respEmpleado.data.data;
+          if (success == true) {
+            const vehiculos = data.map((item: vehiculosRegistrados) => {
+              const area = areaResponsable.find(
+                (x: AreaResponsable) => x.id == item.responsable_Id
+              );
+              return {
+                id: item.id,
+                vehiculo: item.nombre,
+                responsable: item.responsable,
+                area_Id: area.area_Id,
+                bodega: item.bodega,
+                no_Inventario: item.no_Inventario,
+                numero_Institucional: item.numero_Institucional,
+              };
+            });
+            if (
+              parseInt(encryptStorage.decrypt('area_Id')) != 9 &&
+              parseInt(encryptStorage.decrypt('area_Id')) != 6
+            ) {
+              this.list_Vehiculos_By_Area = vehiculos.filter(
+                (x: vehiculosRegistrados) =>
+                  x.area_Id == parseInt(encryptStorage.decrypt('area_Id'))
+              );
+            } else {
+              this.list_Vehiculos_By_Area = vehiculos;
+            }
           }
         }
       } catch (error) {

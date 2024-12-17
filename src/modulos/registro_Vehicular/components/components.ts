@@ -30,8 +30,9 @@ import ModalDatosSeguro from './ModalDatosSeguro.vue';
 import ModalDatosResponsable from './ModalDatosResponsable.vue';
 import ModalDatosHistorico from './ModalDatosHistorico.vue';
 import FormularioObservaciones from './FormularioObservaciones.vue';
-import ModalObservacionesVehiculo from './ModalObservacionesVehiculo.vue';
+import TablaObservacionesVehiculo from './TablaObservacionesVehiculo.vue';
 import ModalObservacionesConsulta from './ModalObservacionesConsulta.vue';
+import TablaByArea from './TablaByArea.vue';
 
 export {
   TablaRegistro,
@@ -44,6 +45,7 @@ export {
   ModalDatosResponsable,
   ModalDatosHistorico,
   FormularioObservaciones,
-  ModalObservacionesVehiculo,
+  TablaObservacionesVehiculo,
   ModalObservacionesConsulta,
+  TablaByArea,
 };

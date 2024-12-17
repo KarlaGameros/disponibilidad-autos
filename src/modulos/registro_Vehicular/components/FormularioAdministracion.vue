@@ -9,6 +9,13 @@
       />
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <q-input
+        v-model="vehiculo.numero_Institucional"
+        label="Número institucional"
+        autogrow
+      />
+    </div>
+    <div class="col-12">
       <q-select
         v-model="bodegaId"
         label="Bodega o Estacionamiento de resguardo del véhiculo"
@@ -42,10 +49,11 @@
         autogrow
       />
     </div>
+
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
       <q-input
-        v-model="vehiculo.numero_Institucional"
-        label="Número institucional"
+        v-model="vehiculo.numero_Factura"
+        label="Número de factura"
         autogrow
       />
     </div>
@@ -79,13 +87,6 @@
         label="Importe del véhiculo que pertenece"
         mask="#######"
         prefix="$"
-      />
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-      <q-input
-        v-model="vehiculo.numero_Factura"
-        label="Número de factura"
-        autogrow
       />
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">

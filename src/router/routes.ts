@@ -34,6 +34,14 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import('../modulos/registro_Vehicular/pages/ObservacionesPage.vue'),
       },
+      {
+        path: '/registro_Observacion',
+        name: 'registro_Observacion',
+        component: () =>
+          import(
+            '../modulos/registro_Vehicular/components/FormularioObservaciones.vue'
+          ),
+      },
     ],
   },
 

@@ -67,6 +67,21 @@
               <q-item-label>Registro Vehicular</q-item-label>
             </q-item-section>
           </q-item>
+          <q-item
+            v-if="menuList.some((element) => element == 'DV-OBS-VEH')"
+            :to="{ name: 'observaciones_Vehiculo' }"
+            :content-inset-level="2"
+            :header-inset-level="2"
+            class="text-grey-8 text-bold"
+            active-class="text-purple-ieen"
+          >
+            <q-item-section avatar>
+              <q-icon name="search" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Observaciones Vehículos</q-item-label>
+            </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -172,6 +187,11 @@ const loadMenu = async () => {
     switch (element.siglas_Modulo) {
       case 'DV-REG-VEH':
         menuList.value.push('DV-REG-VEH');
+        break;
+    }
+    switch (element.siglas_Modulo) {
+      case 'DV-OBS-VEH':
+        menuList.value.push('DV-OBS-VEH');
         break;
     }
   });
